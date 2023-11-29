@@ -43,19 +43,10 @@ public class Main {
         Usuario usuario11 = new Usuario("usuario11");
 
         AlmacenService almacenService = new AlmacenServiceImpl(articuloDao, usuarioDao);
-        //if(almacenDao.addArt(articulo10)) System.out.println("Añadido correctamente");
-        //System.out.println(articulo10.showDetails());
-        //List<Usuario> usuarios = new ArrayList<>();
-        //List<Articulo> articulos = new ArrayList<>();
-        //articulos = almacenDao.getAllArt();
-        // almacenDao.showAllArt(articulos);
-        //Articulo articulo = almacenDao.returnArt(4);
-        /*Boolean success = almacenDao.loanArt(2, 1);
-        if (success) {
-            System.out.println("Alquilado exitoso!");
-        } else {
-            System.out.println("Alquilado falló!");
-        }*/
-        //System.out.println(articulo.showDetails());
+        //almacenService.addArt(articulo1);
+        //almacenService.addArt(articulo11);
+        almacenService.addUser(usuario3);
+        almacenService.showAllArt();
+        almacenService.showAllUsers();
     }
 }

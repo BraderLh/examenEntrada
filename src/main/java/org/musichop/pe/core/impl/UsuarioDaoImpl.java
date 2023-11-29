@@ -16,7 +16,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
     private boolean isSuccess;
 
     private static final String SQL_SELECT_USERS = "SELECT * FROM usuarios";
-    private static final String SQL_INSERT_USER = "INSERT INTO usuarios(nombreusuario) VALUES (?)";
+    private static final String SQL_INSERT_USER = "INSERT INTO usuarios(username) VALUES (?)";
     private static final String SQL_DELETE_USER = "DELETE from usuarios WHERE usuario_id = ?";
     private static final String SQL_DELETE_USER_2 = "UPDATE usuarios SET status=? WHERE usuario_id = ?";
     private static final String SQL_UPDATE_USER = "UPDATE usuarios SET username=? WHERE usuario_id = ?";
@@ -113,7 +113,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
             rs = psmt.executeQuery();
             while (rs.next()) {
                 int id_usuario = rs.getInt("usuario_id");
-                String username = rs.getString("nombreusuario");
+                String username = rs.getString("username");
                 usuario = new Usuario(username);
                 usuario.setNombreUsuario(username);
                 usuario.setUsuarioId(id_usuario);
@@ -134,7 +134,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
             rs = psmt.executeQuery();
             while (rs.next()) {
                 int id_usuario = rs.getInt("usuario_id");
-                String username = rs.getString("nombreusuario");
+                String username = rs.getString("username");
                 usuario = new Usuario(username);
                 usuario.setNombreUsuario(username);
                 usuario.setUsuarioId(id_usuario);

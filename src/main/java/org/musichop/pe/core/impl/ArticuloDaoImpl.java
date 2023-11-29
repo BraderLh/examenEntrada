@@ -18,7 +18,7 @@ public class ArticuloDaoImpl implements ArticuloDao {
     private boolean isSuccess;
 
     private static final String SQL_SELECT_ARTICULOS = "SELECT * FROM articulos";
-    private static final String SQL_INSERT = "INSERT INTO articulos(nombreart, marca, versionart, modelo, isloaned, isdeleted) VALUES (?, ?, ?, ?, ?, ?)";
+    private static final String SQL_INSERT = "INSERT INTO articulos(nombreart, marca, versionart, modelo, isloaned, status) VALUES (?, ?, ?, ?, ?, ?)";
     private static final String SQL_INSERT_2 = "INSERT INTO hardware(articulo_id, material) VALUES (?, ?)";
     private static final String SQL_INSERT_3 = "INSERT INTO software(tipolic, articulo_id) VALUES (?, ?)";
     private static final String SQL_DELETE_ARTICULO_1 = "UPDATE articulos SET status=? WHERE articulo_id = ?";
@@ -34,9 +34,9 @@ public class ArticuloDaoImpl implements ArticuloDao {
     @Override
     public boolean addArt(Articulo articulo) {
         assert articulo!=null;
-        int rows = 0;
+        int rows, insertedId = 0;
         try{
-            PreparedStatement psmt = connection.prepareStatement(SQL_INSERT);
+            PreparedStatement psmt = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
             psmt.setString(1, articulo.getNombreArticulo());
             psmt.setString(2, articulo.getMarca());
             psmt.setInt(3, articulo.getVersion());
@@ -46,9 +46,13 @@ public class ArticuloDaoImpl implements ArticuloDao {
             System.out.println("Ejecutando query: " + SQL_INSERT);
             rows = psmt.executeUpdate();
             System.out.println("Registros afectados: " + rows);
+            ResultSet rs = psmt.getGeneratedKeys();
+            if(rs.next()){
+                insertedId = rs.getInt(1);
+            }
             if ( articulo instanceof Hardware) {
                 try (PreparedStatement stmt = connection.prepareStatement(SQL_INSERT_2)) {
-                    stmt.setInt(1, articulo.getArticuloId());
+                    stmt.setInt(1, insertedId);
                     stmt.setString(2, ((Hardware) articulo).getMaterial());
                     stmt.executeUpdate();
                 }
@@ -56,7 +60,7 @@ public class ArticuloDaoImpl implements ArticuloDao {
             if ( articulo instanceof Software) {
                 try (PreparedStatement stmt = connection.prepareStatement(SQL_INSERT_3)) {
                     stmt.setString(1, ((Software) articulo).getTipoLicencia().toString());
-                    stmt.setInt(2, articulo.getArticuloId());
+                    stmt.setInt(2, insertedId);
                     stmt.executeUpdate();
                 }
             }
