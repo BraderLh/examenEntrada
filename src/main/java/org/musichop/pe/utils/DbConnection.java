@@ -5,8 +5,7 @@ import java.sql.*;
 import java.util.Properties;
 
 public class DbConnection {
-    private Connection connection;
-    public Connection getConnection(){
+    public static Connection getConnection(){
         try {
             Properties props = new Properties();
             InputStream inputStream = DbConnection.class.getClassLoader().getResourceAsStream("application.properties");
@@ -14,7 +13,7 @@ public class DbConnection {
             String url = props.getProperty("db.url");
             String user = props.getProperty("db.username");
             String password = props.getProperty("db.password");
-            connection = DriverManager.getConnection(url, user, password);
+            Connection connection = DriverManager.getConnection(url, user, password);
             System.out.println("Conexion exitosa");
             return connection;
         }

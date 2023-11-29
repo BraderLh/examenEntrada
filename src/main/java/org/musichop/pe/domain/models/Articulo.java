@@ -5,13 +5,19 @@ import java.util.Date;
 public class Articulo {
     protected int articuloId;
     protected String nombreArticulo;
+    protected String marca;
+    protected int version;
+    protected String modelo;
     protected boolean isLoaned;
     protected boolean status;
-    protected Date fechaCreacion;
-    public Articulo(String nombreArticulo) {
+    protected int usuarioId;
+    public Articulo(String nombreArticulo, String marca, int version, String modelo) {
         this.nombreArticulo = nombreArticulo;
+        this.marca = marca;
+        this.version = version;
+        this.modelo = modelo;
         this.isLoaned = false;
-        this.status = false;
+        this.status = true;
     }
 
     public void setArticuloId(int articuloId) {
@@ -38,6 +44,30 @@ public class Articulo {
         isLoaned = loaned;
     }
 
+    public String getMarca() {
+        return marca;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
+    public String getModelo() {
+        return modelo;
+    }
+
+    public void setModelo(String model) {
+        this.modelo = model;
+    }
+
     public boolean isStatus() {
         return status;
     }
@@ -46,23 +76,26 @@ public class Articulo {
         this.status = status;
     }
 
-    public Date getFechaCreacion() {
-        return fechaCreacion;
+    public int getUsuarioId() {
+        return usuarioId;
     }
 
-    public void setFechaCreacion(Date fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
+    public void setUsuarioId(int usuarioId) {
+        this.usuarioId = usuarioId;
     }
 
     public String showDetails() {
-        String msmLoaned = this.isLoaned ? "rentado" : "sin rentar";
-        String status = this.status ? "eliminado" : "disponible";
-        return "Articulo { " +
-                "articuloId = " + articuloId +
-                ", nombreArt = '" + nombreArticulo + '\'' +
-                ", disponibilidad = " + msmLoaned +
-                ", estado = " + status +
-                ", fecha = " + fechaCreacion + " " +
+        String msmLoaned = isLoaned ? "rentado" : "sin rentar";
+        String msmStatus = status ? "activo" : "eliminado";
+        return "Articulo {" +
+                "articuloId=" + articuloId +
+                ", nombreArticulo='" + nombreArticulo + '\'' +
+                ", marca='" + marca + '\'' +
+                ", version=" + version +
+                ", modelo='" + modelo + '\'' +
+                ", estaRentado? =" + msmLoaned +
+                ", estado= " + msmStatus +
+                ", usuarioId= " + usuarioId +
                 '}';
     }
 }
